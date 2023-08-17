@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: typebot-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: typebot
+  template:
+    metadata:
+      labels:
+        app: typebot
+    spec:
+      containers:
+        - name: typebot-container
+          image: baptistearno/typebot-builder:latest
+          env:
+            - name: DATABASE_URL
+              value: db-url
+            - name: BUILDER_URL
+              value: bot-creator.stickball.biz
+            - name: VIEWER_URL
+              value: stickbot.stickball.biz
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: typebot-service
+spec:
+  selector:
+    app: typebot
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+      nodePort: 32000
+  type: NodePort
