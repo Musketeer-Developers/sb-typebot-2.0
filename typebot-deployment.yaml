@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: typebot-container
-          image: baptistearno/typebot-builder:latest
+          image: $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           env:
             - name: DATABASE_URL
               value: db-url
