@@ -10,7 +10,7 @@ FROM base AS pruner
 RUN npm --global install turbo
 WORKDIR /app
 COPY . .
-RUN echo "Debugging: Before turbo prune"
+RUN echo "Debugging: SCOPE is ${SCOPE}"
 RUN turbo prune --scope=${SCOPE} --docker
 RUN echo "Debugging: After turbo prune"
 
