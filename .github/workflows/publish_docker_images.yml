@@ -47,6 +47,7 @@ jobs:
         uses: aws-actions/amazon-ecr-login@v1
         with:
           registry-type: private
+
       - name: Build, tag, and push image 
         env:
             ECR_REGISTRY: ${{ steps.login-ecr-public.outputs.registry }}
@@ -63,4 +64,3 @@ jobs:
         run: |
              kubectl delete -f typebot-deployment.yaml --namespace ingress-nginx
              kubectl apply -f typebot-deployment.yaml --namespace ingress-nginx
-
