@@ -33,7 +33,6 @@ RUN apt-get -qy update \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 COPY ./packages/prisma ./packages/prisma
-COPY ./apps/${SCOPE}/.env.docker ./apps/${SCOPE}/.env.production
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/apps/${SCOPE}/public ./apps/${SCOPE}/public
 COPY --from=builder --chown=node:node /app/apps/${SCOPE}/.next/standalone ./
