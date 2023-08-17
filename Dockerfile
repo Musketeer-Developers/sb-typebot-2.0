@@ -1,15 +1,20 @@
+# Stage 1: Base image
 FROM node:18-bullseye-slim AS base
 WORKDIR /app
 ARG SCOPE
 ENV SCOPE=${SCOPE}
 RUN npm --global install pnpm
 
+# Stage 2: Pruner stage
 FROM base AS pruner
 RUN npm --global install turbo
 WORKDIR /app
 COPY . .
+RUN echo "Debugging: Before turbo prune"
 RUN turbo prune --scope=${SCOPE} --docker
+RUN echo "Debugging: After turbo prune"
 
+# Stage 3: Builder stage
 FROM base AS builder
 RUN apt-get -qy update && apt-get -qy --no-install-recommends install openssl git
 WORKDIR /app
@@ -23,6 +28,7 @@ COPY turbo.json turbo.json
 
 RUN pnpm turbo run build:docker --filter=${SCOPE}...
 
+# Stage 4: Runner stage
 FROM base AS runner
 WORKDIR /app
 ENV NODE_ENV production
