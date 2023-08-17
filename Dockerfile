@@ -38,7 +38,7 @@ COPY --from=builder /app/apps/${SCOPE}/public ./apps/${SCOPE}/public
 COPY --from=builder --chown=node:node /app/apps/${SCOPE}/.next/standalone ./
 COPY --from=builder --chown=node:node /app/apps/${SCOPE}/.next/static ./apps/${SCOPE}/.next/static
 
-COPY scripts/inject-runtime-env.sh scripts/${SCOPE}-entrypoint.sh ./
+# COPY scripts/inject-runtime-env.sh scripts/${SCOPE}-entrypoint.sh ./
 RUN chmod +x ./${SCOPE}-entrypoint.sh \
     && chmod +x ./inject-runtime-env.sh
 ENTRYPOINT ./${SCOPE}-entrypoint.sh
